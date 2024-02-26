@@ -20,9 +20,9 @@ public class MainActivity extends AppCompatActivity {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_events) {
                 selectedFragment = new EventsFragment();
-           /* } else if (itemId == R.id.nav_profile) {
+            } else if (itemId == R.id.nav_profile) {
                 selectedFragment = new ProfileFragment();
-            } else if (itemId == R.id.nav_search) {
+          /*  } else if (itemId == R.id.nav_search) {
                 selectedFragment = new SearchFragment();
             } else if (itemId == R.id.nav_favorites) {
                 selectedFragment = new FavoritesFragment(); */
@@ -38,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
         // Set default fragment
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new WelcomeFragment()).commit();
+        }
+        // LoginActivity, after successful login
+        if (getIntent().getBooleanExtra("SHOW_PROFILE", false)) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new ProfileFragment())
+                    .commit();
         }
     }
 }

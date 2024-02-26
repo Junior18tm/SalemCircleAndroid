@@ -8,7 +8,7 @@ import androidx.security.crypto.MasterKey;
 public class SecurityUtils {
 
     private static final String ENCRYPTED_PREFS_FILE_NAME = "encrypted_prefs";
-
+    private static final String ACCESS_TOKEN_KEY = "access_token";
     public static void storeAccessToken(Context context, String token) {
         try {
             MasterKey masterKey = new MasterKey.Builder(context)
@@ -70,5 +70,8 @@ public class SecurityUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public static boolean isLoggedIn(Context context) {
+        return getAccessToken(context) != null; // User is logged in if a token exists
     }
 }
