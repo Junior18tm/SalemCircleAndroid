@@ -52,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     String accessToken = response.body().getAccessToken();
                     SecurityUtils.storeAccessToken(getApplicationContext(), accessToken);
-                    // <-- TODO: Navigate to new activity
 
+                    // Navigate to new activity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("SHOW_PROFILE", true);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // Clear the back stack

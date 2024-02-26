@@ -1,59 +1,51 @@
 package com.example.salemcircle;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
-import models.EventModel;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import java.util.ArrayList;
-import java.util.List;
-import network.ApiService;
-import network.RetrofitClient;
-import utils.SecurityUtils;
+import androidx.appcompat.widget.Toolbar;
 
 public class EventsActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private EventAdapter eventAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        eventAdapter = new EventAdapter(this, new ArrayList<>());
-        recyclerView.setAdapter(eventAdapter);
+        // Enable the Up button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        loadEvents();
-
-    }
-
-    private void loadEvents() {
-
-        ApiService apiService = RetrofitClient.getClient(getApplicationContext()).create(ApiService.class);
-        apiService.getEvents().enqueue(new Callback<List<EventModel>>() {
+        // Finish activity when clicking on the arrow
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<List<EventModel>> call, Response<List<EventModel>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    eventAdapter.updateEvents(response.body());
-                } else {
-                    //<!-- TODO: Handle error
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<EventModel>> call, Throwable t) {
-                //<!-- TODO: Handle network error
+            public void onClick(View v) {
+                finish();
             }
         });
-    }
 
+        // Get the event details passed from the EventsFragment
+        String eventName = getIntent().getStringExtra("eventName");
+        String eventDescription = getIntent().getStringExtra("eventDescription");
+        String eventDateTime = getIntent().getStringExtra("eventDateTime");
+        int eventCapacity = getIntent().getIntExtra("eventCapacity", 0); // Provide a default value
+
+        // Set the event details to the TextViews on activity_events
+        TextView eventNameTextView = findViewById(R.id.eventNameTextView);
+        TextView eventDescriptionTextView = findViewById(R.id.eventDescriptionTextView);
+        TextView eventDateTimeTextView = findViewById(R.id.eventDateTimeTextView);
+        TextView eventCapacityTextView = findViewById(R.id.eventCapacityTextView);
+
+        eventNameTextView.setText(eventName);
+        eventDescriptionTextView.setText(eventDescription);
+        eventDateTimeTextView.setText(eventDateTime);
+
+        eventCapacityTextView.setText(String.valueOf(eventCapacity));
+    }
 }
+
+

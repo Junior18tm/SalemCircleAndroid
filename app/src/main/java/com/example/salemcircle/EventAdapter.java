@@ -1,6 +1,7 @@
 package com.example.salemcircle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Viewing event: " + currentEvent.getEventName(), Toast.LENGTH_SHORT).show();
-                // Future implementation for event details
+
+                Intent intent = new Intent(context, EventsActivity.class);
+                intent.putExtra("eventName", eventList.get(position).getEventName());
+                intent.putExtra("eventDescription", eventList.get(position).getDescription());
+                intent.putExtra("eventDateTime", eventList.get(position).getDateTime());
+                intent.putExtra("eventCapacity", eventList.get(position).getCapacity());
+                context.startActivity(intent);
             }
         });
     }

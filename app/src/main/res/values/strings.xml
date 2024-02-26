@@ -5,4 +5,6 @@
     <string name="events">Events</string>
     <string name="search">Search</string>
     <string name="profile">Profile</string>
+    <string name="WelcomeMessage">Salem, famous for its historical significance, draws countless visitors yearly. Our app, Salem Circle, aims to enhance the city experience. It will feature \'Events\'—social gatherings for entertainment, exploration, and community engagement.</string>
+    <string name="welcome_to_salem_circle">Welcome to Salem Circle</string>
 </resources>

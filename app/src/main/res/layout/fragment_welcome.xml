@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
 
     <ImageView
         android:id="@+id/salemCircleLogo"
         android:layout_width="143dp"
         android:layout_height="124dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="24dp"
         android:src="@drawable/sclogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,8 +21,8 @@
         android:id="@+id/welcomeText"
         android:layout_width="321dp"
         android:layout_height="36dp"
-        android:layout_marginTop="36dp"
-        android:text="Welcome to Salem Circle"
+        android:layout_marginTop="8dp"
+        android:text="@string/welcome_to_salem_circle"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/salemCircleLogo"
@@ -32,25 +34,23 @@
         android:id="@+id/descriptionText"
         android:layout_width="376dp"
         android:layout_height="153dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="48dp"
         android:padding="16dp"
-        android:text="Salem, famous for its historical significance, draws countless visitors yearly. Our app, Salem Circle, aims to enhance the city experience. It will feature 'Events'—social gatherings for entertainment, exploration, and community engagement."
+        android:text="@string/WelcomeMessage"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/welcomeText"
+        app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="@+id/welcomeText"
         app:layout_constraintTop_toTopOf="@+id/welcomeText" />
-
 
     <ImageView
         android:id="@+id/salemImage"
         android:layout_width="253dp"
         android:layout_height="359dp"
-        android:layout_marginTop="16dp"
         android:src="@drawable/salemmain"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/descriptionText"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/descriptionText"
-        app:layout_constraintVertical_bias="0.284" />
+        app:layout_constraintStart_toStartOf="@+id/descriptionText"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
