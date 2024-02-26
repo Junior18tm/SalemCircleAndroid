@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SalemCircle</string>
+    <string name="password">Password</string>
+    <string name="favorites">Favorites</string>
+    <string name="events">Events</string>
+    <string name="search">Search</string>
+    <string name="profile">Profile</string>
+</resources>
