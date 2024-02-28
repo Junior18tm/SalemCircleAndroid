@@ -61,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         // Proceed with creating the user and making the sign-up request
-        UserModel newUser = new UserModel(username, email, password);
+        UserModel newUser = new UserModel(username, email, password, "", "user", "");
 
         ApiService apiService = RetrofitClient.getClient(getApplicationContext()).create(ApiService.class);
         apiService.signUp(newUser).enqueue(new Callback<UserModel>() {
@@ -70,7 +70,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(SignUpActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
                     // Optionally navigate to another activity
-                    Intent intent = new Intent(SignUpActivity.this, EventsActivity.class);
+                    Intent intent = new Intent(SignUpActivity.this, ProfileFragment.class);
                     startActivity(intent);
                 } else {
                     Toast.makeText(SignUpActivity.this, "Sign up failed: " + response.message(), Toast.LENGTH_SHORT).show();

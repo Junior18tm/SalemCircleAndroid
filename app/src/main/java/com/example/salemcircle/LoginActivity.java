@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
-        UserModel user = new UserModel(username, null, password); // Email is null bc not required for login
+        UserModel user = new UserModel(username, null, password, null, null, null); // Email, name, role, profilepic are null bc not required for login
 
         ApiService apiService = RetrofitClient.getClient(getApplicationContext()).create(ApiService.class);
         apiService.login(user).enqueue(new Callback<LoginResponse>() {
@@ -51,8 +51,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
                     String accessToken = response.body().getAccessToken();
-                    SecurityUtils.storeAccessToken(getApplicationContext(), accessToken);
+                    String userRole = response.body().getUserRole(); // Ensure your LoginResponse includes the role
 
+                    SecurityUtils.storeAccessToken(getApplicationContext(), accessToken);
+                    SecurityUtils.storeUserRole(getApplicationContext(), userRole);
                     // Navigate to new activity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("SHOW_PROFILE", true);

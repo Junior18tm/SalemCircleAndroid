@@ -26,6 +26,9 @@
         <activity android:name=".EventsActivity" />
         <activity android:name=".SignUpActivity"/>
         <activity android:name=".LoginActivity"/>
+        <activity android:name=".CreateEventsActivity">
+
+        </activity>
     </application>
 
 </manifest>

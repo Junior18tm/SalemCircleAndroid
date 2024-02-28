@@ -13,7 +13,7 @@ public interface ApiService {
 
     // USERS
     @POST("user/signup")
-    Call<UserModel> signUp(@Body UserModel user);
+    Call<UserModel> signUp(@Body UserModel User);
     @POST("user/login")
     Call<LoginResponse> login(@Body UserModel user);
 }
