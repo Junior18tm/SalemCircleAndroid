@@ -3,12 +3,12 @@ package models;
 public class LoginResponse {
     private String accessToken;
 
-    private String userRole;
+    private String userId;
     // Constructor
-    public LoginResponse(String accessToken, String userRole) {
+    public LoginResponse(String accessToken, String userId) {
 
         this.accessToken = accessToken;
-        this.userRole = userRole;
+        this.userId = userId;
     }
 
 
@@ -22,7 +22,7 @@ public class LoginResponse {
         this.accessToken = accessToken;
     }
 
-    public String getUserRole() { return userRole; }
+    public String getUserId() { return userId; }
 
-    public void setUserRole(String userRole) { this.userRole = userRole; }
+    public void setUserId(String userId) { this.userId = userId; }
 }

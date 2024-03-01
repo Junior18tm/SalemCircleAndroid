@@ -51,10 +51,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
                     String accessToken = response.body().getAccessToken();
-                    String userRole = response.body().getUserRole(); // Ensure your LoginResponse includes the role
+                    String userId = response.body().getUserId();
 
                     SecurityUtils.storeAccessToken(getApplicationContext(), accessToken);
-                    SecurityUtils.storeUserRole(getApplicationContext(), userRole);
+                    SecurityUtils.storeUserId(getApplicationContext(), userId);
+
                     // Navigate to new activity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("SHOW_PROFILE", true);

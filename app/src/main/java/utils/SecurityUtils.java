@@ -2,6 +2,8 @@ package utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
@@ -10,6 +12,7 @@ public class SecurityUtils {
     private static final String ENCRYPTED_PREFS_FILE_NAME = "encrypted_prefs";
     private static final String ACCESS_TOKEN_KEY = "access_token";
     private static final String USER_ROLE_KEY = "user_role";
+    private static final String USER_ID_KEY = "user_id" ;
 
     public static void storeAccessToken(Context context, String token) {
         try {
@@ -29,7 +32,9 @@ public class SecurityUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d("SecurityUtils", "Storing access token: " + token);
     }
+
 
     public static String getAccessToken(Context context) {
         try {
@@ -45,12 +50,13 @@ public class SecurityUtils {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
 
-            return sharedPreferences.getString("access_token", null);
+            String token = sharedPreferences.getString(ACCESS_TOKEN_KEY, null); // Retrieve token into variable
+            Log.d("SecurityUtils", "Retrieved access token: " + token); // Correctly log the token
+            return token; // Return the retrieved token
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-
 
     }
     public static void clearAccessToken(Context context) {
@@ -68,7 +74,7 @@ public class SecurityUtils {
             );
 
             // Clear the access token from SharedPreferences
-            sharedPreferences.edit().remove("access_token").apply();
+            sharedPreferences.edit().remove(ACCESS_TOKEN_KEY).apply();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,7 +83,8 @@ public class SecurityUtils {
         return getAccessToken(context) != null; // User is logged in if a token exists
     }
 
-    public static void storeUserRole(Context context, String role) {
+    // Method to store user ID
+    public static void storeUserId(Context context, String userId) {
         try {
             MasterKey masterKey = new MasterKey.Builder(context)
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -91,13 +98,15 @@ public class SecurityUtils {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
 
-            sharedPreferences.edit().putString(USER_ROLE_KEY, role).apply();
+            sharedPreferences.edit().putString(USER_ID_KEY, userId).apply();
+            Log.d("SecurityUtils", "Stored user ID: " + userId);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    // check for user's role (admin or user)
-    public static String getUserRole(Context context) {
+
+    // Method to retrieve user ID
+    public static String getUserId(Context context) {
         try {
             MasterKey masterKey = new MasterKey.Builder(context)
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -111,15 +120,12 @@ public class SecurityUtils {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
 
-            return sharedPreferences.getString(USER_ROLE_KEY, null);
+            String userId = sharedPreferences.getString(USER_ID_KEY, null);
+            Log.d("SecurityUtils", "RetrieveD user ID: " + userId);
+            return userId;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-
-    public static boolean isAdmin(Context context) {
-        return "admin".equals(getUserRole(context)); // Check if the user role is admin
-    }
-
 }

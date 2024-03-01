@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import models.EventModel;
+import models.UserRoleResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,24 +38,31 @@ public class EventsFragment extends Fragment {
         recyclerView.setAdapter(eventAdapter);
 
         fabAddEvent = view.findViewById(R.id.fab_add_event);
-        fabAddEvent.setOnClickListener(v -> startActivity(new Intent(getActivity(), CreateEventsActivity.class)));
+        fabAddEvent.setVisibility(View.GONE); // Hiding the button before role check up
 
-        // Check if the user is an admin and show/hide the FAB accordingly
-        if (isAdmin()) {
-            fabAddEvent.setVisibility(View.VISIBLE);
-        } else {
-            fabAddEvent.setVisibility(View.VISIBLE);
-        }
+        checkUserRoleAndSetupFab();
 
         loadEvents();
-
         return view;
     }
+    private void checkUserRoleAndSetupFab() {
+        ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
+        apiService.getUserRole().enqueue(new Callback<UserRoleResponse>() {
+            @Override
+            public void onResponse(Call<UserRoleResponse> call, Response<UserRoleResponse> response) {
+                if (response.isSuccessful() && response.body() != null && "admin".equals(response.body().getRole())) {
+                    fabAddEvent.setVisibility(View.VISIBLE);
+                    fabAddEvent.setOnClickListener(v -> startActivity(new Intent(getActivity(), CreateEventsActivity.class)));
+                }
+            }
 
-    private boolean isAdmin() {
-        // Utilize the SecurityUtils class to check if the user role is "admin"
-        return SecurityUtils.isAdmin(getContext());
+            @Override
+            public void onFailure(Call<UserRoleResponse> call, Throwable t) {
+                // Handle failure
+            }
+        });
     }
+
 
     private void loadEvents() {
         ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
