@@ -18,6 +18,7 @@ import models.EventModel;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
     private List<EventModel> eventList;
     private Context context;
+    private boolean isEditMode;
 
     public EventAdapter(Context context, List<EventModel> eventList) {
         this.context = context;
@@ -31,28 +32,27 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return new EventViewHolder(itemView);
     }
 
+    public void setEditMode(boolean isEditMode) {
+        this.isEditMode = isEditMode;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         EventModel currentEvent = eventList.get(position);
-        holder.eventName.setText(currentEvent.getEventName()); // Updated to match new model
+        holder.eventName.setText(currentEvent.getEventName());
         holder.description.setText(currentEvent.getDescription());
-        holder.dateTime.setText(currentEvent.getDateTime().toString()); // <---TODO: maybe format this later
+        holder.dateTime.setText(currentEvent.getDateTime().toString()); // Make sure this date is formatted as needed
         holder.capacity.setText(String.valueOf(currentEvent.getCapacity()));
 
-        holder.viewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Viewing event: " + currentEvent.getEventName(), Toast.LENGTH_SHORT).show();
+        holder.viewButton.setOnClickListener(v -> {
+            Toast.makeText(context, "Viewing event: " + currentEvent.getEventName(), Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(context, EventsActivity.class);
-                intent.putExtra("eventName", eventList.get(position).getEventName());
-                intent.putExtra("eventDescription", eventList.get(position).getDescription());
-                intent.putExtra("eventDateTime", eventList.get(position).getDateTime());
-                intent.putExtra("eventCapacity", eventList.get(position).getCapacity());
-                context.startActivity(intent);
-            }
+            Intent intent = new Intent(context, EventsActivity.class);
+            intent.putExtra("EVENT_ID", currentEvent.getEventId()); // Pass eventId to EventsActivity
+            context.startActivity(intent);
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -67,7 +67,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     public static class EventViewHolder extends RecyclerView.ViewHolder {
         TextView eventName, description, dateTime, capacity;
-        Button viewButton; // Reference to the "View" button
+        Button viewButton, deleteButton; // Reference to the "View" button
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,5 +78,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             viewButton = itemView.findViewById(R.id.viewButton);
         }
     }
+
 }
 

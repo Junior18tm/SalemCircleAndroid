@@ -1,5 +1,7 @@
 package models;
 
+import android.util.Log;
+
 public class UserModel {
     private String username;
     private String email;
@@ -28,7 +30,9 @@ public class UserModel {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
-    public String getName() { return fullName; }
+    public String getName() {
+        Log.d("UserModel", "Retrieved name: " + fullName);
+        return fullName; }
     public void setName(String name) { this.fullName = name; }
 
     public String getRole() { return role; }

@@ -1,9 +1,13 @@
 package com.example.salemcircle;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,21 +28,26 @@ public class EventsFragment extends Fragment {
     private RecyclerView recyclerView;
     private EventAdapter eventAdapter;
     private FloatingActionButton fabAddEvent;
+    private List<EventModel> eventsList = new ArrayList<>();
+
+
+
 
     public EventsFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_events, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        eventAdapter = new EventAdapter(getActivity(), new ArrayList<>());
+        eventAdapter = new EventAdapter(getActivity(), eventsList);
         recyclerView.setAdapter(eventAdapter);
 
         fabAddEvent = view.findViewById(R.id.fab_add_event);
-        fabAddEvent.setVisibility(View.GONE); // Hiding the button before role check up
+        fabAddEvent.setVisibility(View.GONE); // Hiding the FAB button before role check up
 
         checkUserRoleAndSetupFab();
 
@@ -62,7 +71,6 @@ public class EventsFragment extends Fragment {
             }
         });
     }
-
 
     private void loadEvents() {
         ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);

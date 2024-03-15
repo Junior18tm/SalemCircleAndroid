@@ -35,7 +35,7 @@ public class ProfileFragment extends Fragment {
         // Initialize TextViews
         usernameTextView = view.findViewById(R.id.usernameTextView);
         emailTextView = view.findViewById(R.id.emailTextView);
-        fullNameTextView = view.findViewById(R.id.fullNameEditText);
+        fullNameTextView = view.findViewById(R.id.fullName);
 
         if (SecurityUtils.isLoggedIn(getContext())) {
             String userId = SecurityUtils.getUserId(getContext());

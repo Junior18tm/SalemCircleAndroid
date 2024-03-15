@@ -40,5 +40,24 @@ public class EventModel {
         return capacity;
     }
 
-    // Setters
+// Setters
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
 }

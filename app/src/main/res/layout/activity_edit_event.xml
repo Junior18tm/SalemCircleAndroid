@@ -1,8 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".EditEventActivity">
 
     <EditText
         android:id="@+id/eventNameEditText"
@@ -34,10 +38,17 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/createEventButton"
+        android:id="@+id/updateEventButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Event"/>
+        android:text="Update Event"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnDeleteEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete Event"
+        android:layout_marginTop="8dp"/>
 
 </LinearLayout>
-

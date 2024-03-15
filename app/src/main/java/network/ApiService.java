@@ -11,9 +11,19 @@ import java.lang.invoke.CallSite;
 import java.util.List;
 
 public interface ApiService {
-  //events
+
+     //Events
     @GET("event/all")
     Call<List<EventModel>> getEvents();
+    @POST("event/create")
+    Call<EventModel> createEvent(@Body EventModel event);
+    @GET("event/details/{eventId}")
+    Call<EventModel> getEventDetails(@Path("eventId") String eventId);
+    @DELETE("event/delete/{eventId}")
+    Call<Void> deleteEvent(@Path("eventId") String eventId);
+    @PUT("event/edit/{eventId}")
+    Call<Void> updateEvent(@Path("eventId") String eventId, @Body EventModel event);
+
 
     // USERS
     @POST("user/signup")
@@ -25,10 +35,8 @@ public interface ApiService {
     @GET("user/getUserById/{userId}")
     Call<UserModel> getUserById(@Path("userId") String userId);
 
-  @GET("user/getRole")
+    @GET("user/getRole")
     Call<UserRoleResponse> getUserRole();
-
-
 
 
 }

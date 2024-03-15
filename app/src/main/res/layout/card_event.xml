@@ -54,6 +54,15 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp" />
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:layout_below="@+id/eventCapacity"
+            android:layout_toStartOf="@id/viewButton"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
