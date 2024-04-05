@@ -6,10 +6,14 @@ android {
     namespace = "com.example.salemcircle"
     compileSdk = 34
 
+    packaging {
+        resources.excludes.add("META-INF/INDEX.LIST")
+        // Add any other conflicting files here
+    }
     defaultConfig {
         applicationId = "com.example.salemcircle"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -42,6 +46,12 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.github.bumptech.glide:glide:4.11.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("androidx.activity:activity-ktx:1.8.2")
+    implementation("com.google.cloud:google-cloud-storage:2.34.0")
+
+    annotationProcessor("com.github.bumptech.glide:compiler:4.11.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

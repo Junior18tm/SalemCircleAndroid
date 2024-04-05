@@ -1,6 +1,7 @@
 package com.example.salemcircle;
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -131,9 +132,10 @@ public class CreateEventsActivity extends AppCompatActivity {
             public void onResponse(Call<EventModel> call, Response<EventModel> response) {
                 if (response.isSuccessful()) {
                     // Event created successfully
-                    Toast.makeText(CreateEventsActivity.this, "Event created successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CreateEventsActivity.this, EventsFragment.class);
-                    startActivity(intent);
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("EVENT_CREATED_SUCCESSFULLY", true);
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
                 } else {
                     // Handle errors (e.g., invalid input, server error)
                     Toast.makeText(CreateEventsActivity.this, "Failed to create event", Toast.LENGTH_SHORT).show();

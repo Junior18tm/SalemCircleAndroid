@@ -17,7 +17,7 @@ public class UserModel {
         this.password = password;
         this.fullName = "";
         this.role = "user"; // Default role
-        this.profileImagePath = "";
+        this.profileImagePath = profileImagePath;
     }
 
     // Getters and Setters
@@ -31,16 +31,23 @@ public class UserModel {
     public void setPassword(String password) { this.password = password; }
 
     public String getName() {
-        Log.d("UserModel", "Retrieved name: " + fullName);
         return fullName; }
     public void setName(String name) { this.fullName = name; }
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
 
-    public String getProfileImagePath() { return profileImagePath; }
-    public void setProfileImagePath(String profileImagePath) { this.profileImagePath = profileImagePath; }
+    public String getProfileImagePath() {
+        // Return the default profile image URL if none is set
+        if (profileImagePath == null || profileImagePath.isEmpty()) {
+            return "https://storage.googleapis.com/salem-circle/profile-pic/DefaultProfilePic.png";
+        }
+        return profileImagePath;
+    }
 
+    public void setProfileImagePath(String profileImagePath) {
+        this.profileImagePath = profileImagePath;
+    }
 }
 
 

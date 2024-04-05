@@ -1,9 +1,14 @@
 package network;
 
+import models.CommentModel;
+import models.CommentPostRequest;
 import models.EventModel;
 import models.UserModel;
 import models.LoginResponse;
 import models.UserRoleResponse;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -34,9 +39,18 @@ public interface ApiService {
     Call<UserModel> updateUserInfo (@Body UserModel user);
     @GET("user/getUserById/{userId}")
     Call<UserModel> getUserById(@Path("userId") String userId);
-
     @GET("user/getRole")
     Call<UserRoleResponse> getUserRole();
+    @Multipart
+    @POST("user/profile-picture")
+    Call<ResponseBody> uploadProfilePicture(@Part MultipartBody.Part file);
+
+    // COMMENTS
+    @GET("comments/event/{eventId}")
+    Call<List<CommentModel>> getCommentsByEventId(@Path("eventId") String _id);
+    @POST("comment/comments")
+    Call<CommentModel> postComment(@Body CommentPostRequest commentPostRequest);
+
 
 
 }

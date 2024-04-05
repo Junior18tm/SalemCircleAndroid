@@ -2,6 +2,7 @@ package com.example.salemcircle;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -165,8 +166,9 @@ public class EditEventActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(EditEventActivity.this, "Event updated successfully", Toast.LENGTH_SHORT).show();
-                    // After a successful update, you may want to go back to the previous Activity
-                    // or refresh the event list if this Activity is part of a navigation flow
+                    Intent data = new Intent();
+                    data.putExtra("EVENT_ID", eventId);
+                    setResult(RESULT_OK, data);
                     finish();
                 } else {
                     Toast.makeText(EditEventActivity.this, "Failed to update the event", Toast.LENGTH_SHORT).show();
@@ -188,9 +190,12 @@ public class EditEventActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(EditEventActivity.this, "Event deleted successfully", Toast.LENGTH_SHORT).show();
-                    // After a successful deletion, you may want to go back to the previous Activity
-                    // or refresh the event list to reflect the absence of the deleted event
+
+                    Intent data = new Intent();
+                    data.putExtra("EVENT_DELETED", true);
+                    setResult(RESULT_OK, data);
                     finish();
+
                 } else {
                     Toast.makeText(EditEventActivity.this, "Failed to delete the event", Toast.LENGTH_SHORT).show();
                 }

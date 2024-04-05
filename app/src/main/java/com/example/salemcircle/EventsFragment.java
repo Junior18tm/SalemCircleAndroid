@@ -1,8 +1,12 @@
 package com.example.salemcircle;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,8 +33,21 @@ public class EventsFragment extends Fragment {
     private EventAdapter eventAdapter;
     private FloatingActionButton fabAddEvent;
     private List<EventModel> eventsList = new ArrayList<>();
+    private ActivityResultLauncher<Intent> createEventLauncher;
 
-
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Initialize the launcher
+        createEventLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // Refresh your events list or navigate as needed
+                        loadEvents(); // Assuming loadEvents() fetches and refreshes the list
+                    }
+                });
+    }
 
 
     public EventsFragment() {
@@ -54,6 +71,11 @@ public class EventsFragment extends Fragment {
         loadEvents();
         return view;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadEvents(); // Refresh the events list whenever the fragment resumes
+    }
     private void checkUserRoleAndSetupFab() {
         ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
         apiService.getUserRole().enqueue(new Callback<UserRoleResponse>() {
@@ -61,7 +83,10 @@ public class EventsFragment extends Fragment {
             public void onResponse(Call<UserRoleResponse> call, Response<UserRoleResponse> response) {
                 if (response.isSuccessful() && response.body() != null && "admin".equals(response.body().getRole())) {
                     fabAddEvent.setVisibility(View.VISIBLE);
-                    fabAddEvent.setOnClickListener(v -> startActivity(new Intent(getActivity(), CreateEventsActivity.class)));
+                    fabAddEvent.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), CreateEventsActivity.class);
+                        createEventLauncher.launch(intent);
+                    });
                 }
             }
 

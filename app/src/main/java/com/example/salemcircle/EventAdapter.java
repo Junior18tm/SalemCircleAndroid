@@ -18,7 +18,6 @@ import models.EventModel;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
     private List<EventModel> eventList;
     private Context context;
-    private boolean isEditMode;
 
     public EventAdapter(Context context, List<EventModel> eventList) {
         this.context = context;
@@ -32,9 +31,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return new EventViewHolder(itemView);
     }
 
-    public void setEditMode(boolean isEditMode) {
-        this.isEditMode = isEditMode;
-    }
 
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
@@ -48,7 +44,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             Toast.makeText(context, "Viewing event: " + currentEvent.getEventName(), Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(context, EventsActivity.class);
-            intent.putExtra("EVENT_ID", currentEvent.getEventId()); // Pass eventId to EventsActivity
+            intent.putExtra("EVENT_ID", currentEvent.getEventId());// Pass eventId to EventsActivity
+            intent.putExtra("EVENT_MONGO_ID", currentEvent.get_id()); // Pass eventid from database
             context.startActivity(intent);
         });
     }

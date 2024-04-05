@@ -1,6 +1,10 @@
 package com.example.salemcircle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +52,21 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
     }
+
+    ActivityResultLauncher<Intent> createEventLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    boolean eventCreated = result.getData().getBooleanExtra("EVENT_CREATED_SUCCESSFULLY", false);
+                    if(eventCreated) {
+                        // Code to switch to EventsFragment
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new EventsFragment())
+                                .commit();
+                    }
+                }
+            });
+
 }
 
 
