@@ -3,6 +3,7 @@ package models;
 import android.util.Log;
 
 public class UserModel {
+    private String _id;
     private String username;
     private String email;
     private String password;
@@ -12,6 +13,10 @@ public class UserModel {
 
     // Constructor for sign-up
     public UserModel(String username, String email, String password, String fullName, String role, String profileImagePath) {
+        this(null, username, email, password, fullName, role, profileImagePath);
+    }
+    public UserModel(String _id, String username, String email, String password, String fullName, String role, String profileImagePath) {
+        this._id = _id;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -21,6 +26,14 @@ public class UserModel {
     }
 
     // Getters and Setters
+    public String getId() {
+        return _id;
+    }
+
+    public void setId(String id) {
+        this._id = _id;
+    }
+
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 

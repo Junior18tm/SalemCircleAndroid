@@ -1,5 +1,7 @@
 package models;
 
+import android.util.Log;
+
 public class UserRoleResponse {
     private String role;
 
@@ -10,6 +12,7 @@ public class UserRoleResponse {
 
     // Getter
     public String getRole() {
+        Log.d("urr", "Retrieved role: " + role);
         return role;
     }
 

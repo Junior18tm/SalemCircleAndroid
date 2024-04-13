@@ -40,4 +40,14 @@
             android:text="Timestamp"
             android:layout_marginTop="4dp"/>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/deleteCommentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_delete"
+        android:contentDescription="@string/delete_comment"
+        android:visibility="gone"/>
+
 </LinearLayout>

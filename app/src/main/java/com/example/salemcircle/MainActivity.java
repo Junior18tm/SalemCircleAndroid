@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new EventsFragment();
             } else if (itemId == R.id.nav_profile) {
                 selectedFragment = new ProfileFragment();
-          /*  } else if (itemId == R.id.nav_search) {
-                selectedFragment = new SearchFragment();
+          //  } else if (itemId == R.id.nav_search) {
+          //      selectedFragment = new SearchFragment();
             } else if (itemId == R.id.nav_favorites) {
-                selectedFragment = new FavoritesFragment(); */
+                selectedFragment = new FavoritesFragment();
             }
 
             if (selectedFragment != null) {

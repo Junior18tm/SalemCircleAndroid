@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Date;
+import java.util.List;
 
 public class EventModel {
     private String _id;
@@ -10,15 +11,20 @@ public class EventModel {
     private Date dateTime;
     private int capacity;
     // private List<Comment> comments; // implement Comment model later
+    private List<String> participants;
+    private boolean isFavorited;
+    private int favoriteCount;
 
-    // Constructor
-    public EventModel(String _id, String eventId, String eventName, String description, Date dateTime, int capacity) {
+
+    // Constructors
+    public EventModel(String _id, String eventId, String eventName, String description, Date dateTime, int capacity, int favoriteCount) {
         this._id = _id;
         this.eventId = eventId;
         this.eventName = eventName;
         this.description = description;
         this.dateTime = dateTime;
         this.capacity = capacity;
+        this.favoriteCount = favoriteCount;
     }
     public EventModel(String eventId, String eventName, String description, Date dateTime, int capacity) {
         this.eventId = eventId;
@@ -30,9 +36,6 @@ public class EventModel {
     // Getters
     public String get_id() {
         return _id;
-    }
-    public void set_id(String _id) {
-        this._id = _id;
     }
 
     public String getEventId() {
@@ -55,6 +58,16 @@ public class EventModel {
         return capacity;
     }
 
+    public List<String> getParticipants() {
+        return participants;
+    }
+    public boolean isFavorited() {
+        return isFavorited;
+    }
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
 // Setters
     public void setEventId(String eventId) {
         this.eventId = eventId;
@@ -72,7 +85,13 @@ public class EventModel {
         this.dateTime = dateTime;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public void setCapacity(int capacity) {this.capacity = capacity;}
+
+    public void setFavorited(boolean favorite) {
+        isFavorited = favorite;
+    }
+
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
     }
 }
