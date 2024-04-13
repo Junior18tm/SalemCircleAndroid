@@ -1,25 +1,24 @@
 package com.example.salemcircle;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import models.EventModel;
 import models.FavoriteCountResponse;
@@ -27,17 +26,12 @@ import models.FavoriteModel;
 import models.FavoriteRemoveRequest;
 import models.FavoriteRequest;
 import models.UserRoleResponse;
+import network.ApiService;
+import network.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-
-import network.ApiService;
-import network.RetrofitClient;
-import utils.SecurityUtils; // Make sure to import your SecurityUtils class
+import utils.SecurityUtils;
 
 public class EventsFragment extends Fragment implements EventAdapter.FavoriteHandler {
     private RecyclerView recyclerView;
@@ -108,27 +102,6 @@ public class EventsFragment extends Fragment implements EventAdapter.FavoriteHan
         });
     }
 
-    /*private void loadEvents() {
-        ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
-        apiService.getEvents().enqueue(new Callback<List<EventModel>>() {
-            @Override
-            public void onResponse(Call<List<EventModel>> call, Response<List<EventModel>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<EventModel> events = response.body();
-                    eventAdapter.updateEvents(response.body());
-                    for (EventModel event : events) {
-                        fetchFavoriteCount(event);  }
-                } else {
-                    Toast.makeText(getContext(), "Failed to load events, please try again later", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<EventModel>> call, Throwable t) {
-                Toast.makeText(getContext(), "Check your network connection", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }*/
 
     // Favorites
     @Override
@@ -207,34 +180,6 @@ public class EventsFragment extends Fragment implements EventAdapter.FavoriteHan
         });
     }
 
-   /* private void loadFavorites() {
-        String userId = SecurityUtils.getUserId(getContext()); // Ensure you have a method to get the current user's ID
-        ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
-        apiService.getFavoritesByUserId(userId).enqueue(new Callback<List<FavoriteModel>>() {
-            @Override
-            public void onResponse(Call<List<FavoriteModel>> call, Response<List<FavoriteModel>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<EventModel> favoritedEvents = new ArrayList<>();
-                    for (FavoriteModel favorite : response.body()) {
-                        EventModel event = favorite.getEvent();
-                        event.setFavorited(true); // Adjust based on your actual method name, it was setFavorited in your previous code snippet
-                        favoritedEvents.add(event);
-                    }
-                    updateEventsWithFavorites(favoritedEvents); // Update your events list with these favorited events
-                } else {
-                    // This block will execute if the response from the server is not successful
-                    Toast.makeText(getContext(), "Failed to load favorites", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<FavoriteModel>> call, Throwable t) {
-                // This block will execute on network error, parsing errors, or configuration issues
-                Log.e("Network Error", "Failed to fetch favorites: " + t.getMessage(), t);
-                Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }*/
     private void loadEventsAndFavorites() {
         final CountDownLatch latch = new CountDownLatch(2); // Two operations to wait for
 
@@ -305,19 +250,6 @@ public class EventsFragment extends Fragment implements EventAdapter.FavoriteHan
             }
         }).start();
     }
-
-
-    /*private void updateEventsWithFavorites(List<EventModel> favoritedEvents) {
-        HashSet<String> favoritedEventIds = new HashSet<>();
-        for (EventModel event : favoritedEvents) {
-            favoritedEventIds.add(event.getEventId());
-        }
-        for (EventModel event : eventsList) {
-            event.setFavorited(favoritedEventIds.contains(event.getEventId()));
-        }
-        eventAdapter.notifyDataSetChanged(); // Notify your adapter to refresh the RecyclerView
-    }
-*/
 
 }
 
