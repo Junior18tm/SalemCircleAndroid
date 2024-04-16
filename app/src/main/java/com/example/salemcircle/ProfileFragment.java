@@ -1,6 +1,7 @@
 package com.example.salemcircle;
 
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,22 +12,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
-
-
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 
+import java.io.File;
 
 import models.UserModel;
 import network.ApiService;
@@ -38,10 +36,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import utils.SecurityUtils;
-import android.Manifest;
 import utils.FileUtils;
-import java.io.File;
+import utils.SecurityUtils;
 
 
 public class ProfileFragment extends Fragment {
@@ -187,8 +183,8 @@ public class ProfileFragment extends Fragment {
                             .into(profileImageView);
                 } else {
                     if (isAdded()) {
-                    Toast.makeText(getContext(), "Failed to fetch user details", Toast.LENGTH_SHORT).show();
-                }
+                        Toast.makeText(getContext(), "Failed to fetch user details", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -196,29 +192,30 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onFailure(Call<UserModel> call, Throwable t) {
                 if (isAdded()) {
-                Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
-            }}
+                    Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
-
-
 
 
         Button logoutButton = view.findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(v -> {
-
+            logoutUser(); // Call the comprehensive logout method that now also clears the user ID
+        });
+    }
+        private void logoutUser() {
+            SecurityUtils.clearAccessToken(getContext()); // Existing line
+            SecurityUtils.clearUserId(getContext()); // New line to clear the user ID
 
             Toast.makeText(getContext(), "Logged out successfully", Toast.LENGTH_SHORT).show();
-            // Clear the access token
-            SecurityUtils.clearAccessToken(getContext());
-
 
             // Refresh this fragment to show the login/signup option after logout
             refreshFragment();
-        });
-    }
+        }
 
 
-    private void updateUserInfo(String username, String email, String password, String fullName, String role, String profileImagePath) {
+
+        private void updateUserInfo(String username, String email, String password, String fullName, String role, String profileImagePath) {
         // Assuming you have a UserModel object with the current user's information
         UserModel updatedUser = new UserModel(username, email, password, fullName ,role ,profileImagePath);
         updatedUser.setName(fullName);

@@ -79,6 +79,28 @@ public class SecurityUtils {
             e.printStackTrace();
         }
     }
+    public static void clearUserId(Context context) {
+        try {
+            MasterKey masterKey = new MasterKey.Builder(context)
+                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                    .build();
+
+            SharedPreferences sharedPreferences = EncryptedSharedPreferences.create(
+                    context,
+                    ENCRYPTED_PREFS_FILE_NAME,
+                    masterKey,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            );
+
+            // Clear the user ID from SharedPreferences
+            sharedPreferences.edit().remove(USER_ID_KEY).apply();
+            Log.d("SecurityUtils", "Cleared user ID");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean isLoggedIn(Context context) {
         return getAccessToken(context) != null; // User is logged in if a token exists
     }

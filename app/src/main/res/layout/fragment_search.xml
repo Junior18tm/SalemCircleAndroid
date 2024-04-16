@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Search events..." />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp">
+
+        <Spinner
+            android:id="@+id/spinner_filter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+        <Button
+            android:id="@+id/btn_date_picker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Pick Date" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tv_filter_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Filters applied: None"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+        <ImageView
+            android:id="@+id/img_clear_filters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:contentDescription="@string/clear_filter"
+            android:focusable="true"
+            android:src="@drawable/clear" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search_results"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

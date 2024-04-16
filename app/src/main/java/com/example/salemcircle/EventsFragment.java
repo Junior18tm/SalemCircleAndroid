@@ -233,7 +233,7 @@ public class EventsFragment extends Fragment implements EventAdapter.FavoriteHan
 
             @Override
             public void onFailure(Call<List<FavoriteModel>> call, Throwable t) {
-                Toast.makeText(getContext(), "Network error while loading favorites", Toast.LENGTH_SHORT).show();
+           //     Toast.makeText(getContext(), "Network error while loading favorites", Toast.LENGTH_SHORT).show();
                 latch.countDown(); // Ensure count is decreased on failure too
             }
         });

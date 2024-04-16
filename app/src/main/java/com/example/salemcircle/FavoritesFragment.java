@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class FavoritesFragment extends Fragment implements EventAdapter.Favorite
     private RecyclerView recyclerView;
     private EventAdapter eventAdapter;
     private List<EventModel> favoriteEvents = new ArrayList<>();
+    private FloatingActionButton fabAddEvent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,8 @@ public class FavoritesFragment extends Fragment implements EventAdapter.Favorite
         recyclerView = view.findViewById(R.id.recyclerView);
         eventAdapter = new EventAdapter(getActivity(), favoriteEvents, this);
         recyclerView.setAdapter(eventAdapter);
+        fabAddEvent = view.findViewById(R.id.fab_add_event);
+        fabAddEvent.setVisibility(View.GONE);
 
         if (SecurityUtils.isLoggedIn(getContext())) {
             loadFavoriteEvents(); // Only load favorites if user is logged in

@@ -1,0 +1,8 @@
+<resources>
+    <string-array name="search_filters">
+        <item>None</item>
+        <item>Name</item>
+        <item>Description</item>
+        <item>ID</item>
+    </string-array>
+</resources>

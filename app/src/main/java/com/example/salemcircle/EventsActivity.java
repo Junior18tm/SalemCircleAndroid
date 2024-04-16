@@ -1,15 +1,10 @@
 package com.example.salemcircle;
 
-import static android.app.PendingIntent.getActivity;
-
-import static utils.SecurityUtils.getUserId;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -175,17 +170,29 @@ public class EventsActivity extends AppCompatActivity {
     }
     private void updateJoinLeaveButton(boolean userHasJoinedEvent, EventModel event) {
         Button joinLeaveEventButton = findViewById(R.id.joinLeaveEventButton);
+
         if (userHasJoinedEvent) {
             joinLeaveEventButton.setText("Leave Event");
             joinLeaveEventButton.setOnClickListener(v -> showLeaveConfirmationDialog());
+            joinLeaveEventButton.setEnabled(true);
         } else if (event.getParticipants().size() >= event.getCapacity()) {
             joinLeaveEventButton.setEnabled(false);
             joinLeaveEventButton.setText("Event Full");
+            joinLeaveEventButton.setOnClickListener(null); // Disable clicking functionality
         } else {
             joinLeaveEventButton.setText("Join Event");
-            joinLeaveEventButton.setOnClickListener(v -> showJoinConfirmationDialog());
+            joinLeaveEventButton.setOnClickListener(v -> {
+                if (SecurityUtils.isLoggedIn(EventsActivity.this)) {
+                    showJoinConfirmationDialog();
+                } else {
+                    promptLogin();
+                }
+            });
+            joinLeaveEventButton.setEnabled(true);
         }
     }
+
+
     private void showLeaveConfirmationDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Leave Event")
@@ -249,6 +256,12 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     private void joinEvent() {
+
+        if (!SecurityUtils.isLoggedIn(this)) {
+            promptLogin();
+            return;
+        }
+
         String eventId = getIntent().getStringExtra("EVENT_MONGO_ID");
         String eventId2 = getIntent().getStringExtra("EVENT_ID");
         String userId = SecurityUtils.getUserId(this);
@@ -279,6 +292,18 @@ public class EventsActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void promptLogin() {
+        new AlertDialog.Builder(this)
+                .setTitle("Login Required")
+                .setMessage("You need to log in to perform this action.")
+                .setPositiveButton("Login", (dialog, which) -> {
+                    startActivity(new Intent(this, LoginActivity.class));  // Assuming LoginActivity is where users log in
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
 
     private void fetchComments(String mongoObjectId) {
         String eventId = getIntent().getStringExtra("EVENT_ID");
@@ -324,12 +349,12 @@ public class EventsActivity extends AppCompatActivity {
         submitCommentButton.setOnClickListener(v -> {
             String commentText = commentInput.getText().toString().trim();
             if (!commentText.isEmpty()) {
-                String userId = SecurityUtils.getUserId(this); // Retrieve user ID using SecurityUtils
-                if (userId != null) {
+                if (SecurityUtils.isLoggedIn(this)) {
+                    String userId = SecurityUtils.getUserId(this); // Retrieve user ID using SecurityUtils
                     CommentPostRequest commentPostRequest = new CommentPostRequest(eventId, commentText, userId);
                     postComment(commentPostRequest, commentsDialog, commentInput, adapter); // Pass the dialog, input field, and adapter for refreshing
                 } else {
-                    Toast.makeText(this, "Failed to retrieve user ID", Toast.LENGTH_SHORT).show();
+                    promptLogin();
                 }
             } else {
                 Toast.makeText(this, "Comment cannot be empty", Toast.LENGTH_SHORT).show();
@@ -344,6 +369,13 @@ public class EventsActivity extends AppCompatActivity {
     private void postComment(CommentPostRequest commentPostRequest, Dialog dialog, EditText commentInput, CommentsAdapter adapter) {
         ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
         Call<CommentModel> call = apiService.postComment(commentPostRequest);
+
+        if (!SecurityUtils.isLoggedIn(this)) {
+            promptLogin();
+            dialog.dismiss();  // Dismiss the comment dialog if it's open
+            return;
+        }
+
 
         call.enqueue(new Callback<CommentModel>() {
             @Override
