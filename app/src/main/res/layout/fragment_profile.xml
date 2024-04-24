@@ -74,10 +74,19 @@
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fullNameLayout"
+        android:layout_below="@+id/viewJoinedEventsButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:text="Logout" />
+    <Button
+        android:id="@+id/viewJoinedEventsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fullNameLayout"
+        android:text="View Joined Events"
+        android:visibility="visible"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
 
 </RelativeLayout>
 

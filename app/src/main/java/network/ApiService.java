@@ -59,6 +59,8 @@ public interface ApiService {
     Call<ParticipationResponse> participateInEvent(@Body ParticipationRequest request);
     @POST("api/user/leave")
     Call<ParticipationResponse> leaveEvent(@Body ParticipationRequest request);
+    @GET("api/user/events/{userId}")
+    Call<List<EventModel>> getUserEvents(@Path("userId") String userId);
     @PUT("user/editUser")
     Call<UserModel> updateUserInfo (@Body UserModel user);
     @GET("user/getUserById/{userId}")

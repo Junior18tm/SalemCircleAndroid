@@ -119,7 +119,7 @@ public class EventsFragment extends Fragment implements EventAdapter.FavoriteHan
             @Override
             public void onResponse(Call<Response<Void>> call, Response<Response<Void>> response) {
                 if (response.isSuccessful()) {
-                    // Optionally handle UI update or log success
+
                     int newCount = event.getFavoriteCount() + 1;
                     event.setFavoriteCount(newCount);
                     eventAdapter.notifyDataSetChanged();

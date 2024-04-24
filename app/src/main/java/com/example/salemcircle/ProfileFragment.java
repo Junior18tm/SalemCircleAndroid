@@ -47,6 +47,7 @@ public class ProfileFragment extends Fragment {
     private ShapeableImageView profileImageView;
     private ActivityResultLauncher<String> pickImageLauncher;
     private ActivityResultLauncher<String[]> requestPermissionLauncher;
+    private Button viewJoinedEvents;
     public ProfileFragment() {
     }
     @Override
@@ -86,7 +87,7 @@ public class ProfileFragment extends Fragment {
         emailTextView = view.findViewById(R.id.emailTextView);
         fullNameTextView = view.findViewById(R.id.fullName);
         profileImageView = view.findViewById(R.id.profileImageView); // Initialize the ImageView
-
+        viewJoinedEvents = view.findViewById(R.id.viewJoinedEventsButton);
 
         if (SecurityUtils.isLoggedIn(getContext())) {
             String userId = SecurityUtils.getUserId(getContext());
@@ -176,7 +177,10 @@ public class ProfileFragment extends Fragment {
                     usernameTextView.setText(user.getUsername());
                     emailTextView.setText(user.getEmail());
                     fullNameTextView.setText(user.getName());
-
+                    viewJoinedEvents.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), UserEventsActivity.class);
+                        startActivity(intent);
+                    });
                     Glide.with(getContext())
                             .load(user.getProfileImagePath()) // URL from the user model
                             .placeholder(R.drawable.default_profile_pic) // Show default image while loading
@@ -212,39 +216,6 @@ public class ProfileFragment extends Fragment {
             // Refresh this fragment to show the login/signup option after logout
             refreshFragment();
         }
-
-
-
-        private void updateUserInfo(String username, String email, String password, String fullName, String role, String profileImagePath) {
-        // Assuming you have a UserModel object with the current user's information
-        UserModel updatedUser = new UserModel(username, email, password, fullName ,role ,profileImagePath);
-        updatedUser.setName(fullName);
-        // Set other fields as necessary, e.g., username, email, etc.
-
-
-        ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
-        Call<UserModel> call = apiService.updateUserInfo(updatedUser);
-        call.enqueue(new Callback<UserModel>() {
-            @Override
-            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-                if (response.isSuccessful()) {
-                    // Update was successful, refresh the profile information displayed
-                    Toast.makeText(getContext(), "Name updated successfully", Toast.LENGTH_SHORT).show();
-                    refreshFragment();
-                } else {
-                    // Handle the case where the server response indicates an error
-                    Toast.makeText(getContext(), "Failed to update name", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-
-            @Override
-            public void onFailure(Call<UserModel> call, Throwable t) {
-                // Handle network error or other issues with the call to the server
-                Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
 
 
